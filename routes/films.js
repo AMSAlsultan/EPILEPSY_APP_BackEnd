@@ -10,6 +10,7 @@ const FILE_TYPE_MAP = {
     'image/jpg': 'jpg'
 }
 
+//Uploading  files 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const isValid = FILE_TYPE_MAP[file.mimetype];
@@ -30,7 +31,8 @@ const storage = multer.diskStorage({
   })
   
   const uploadOptions = multer({ storage: storage })
-  
+
+// get filmList by categories 
 router.get(`/`, async (req, res) =>{
    
     let filter = {};
@@ -47,6 +49,7 @@ filter = {category: req.query.categories.split(',')}
     res.send(filmList);
 })
 
+//get filmList
 router.get(`/`, async (req, res) =>{
     const filmList = await Film.find();
 
@@ -56,6 +59,7 @@ router.get(`/`, async (req, res) =>{
     res.send(filmList);
 })
 
+//get film by id
 router.get(`/:id`, async (req, res) =>{
     const film = await Film.findById(req.params.id).populate('category');
 
@@ -65,6 +69,7 @@ router.get(`/:id`, async (req, res) =>{
     res.send(film);
 })
 
+//post film 
 router.post(`/`, uploadOptions.single('image'), async (req , res)=>{
     const category = await Category.findById(req.body.category);
     if(!category) 
@@ -83,7 +88,7 @@ router.post(`/`, uploadOptions.single('image'), async (req , res)=>{
         filmstory: req.body.filmstory,
         image: `${appPath}${filename}`,
         category: req.body.category,
-        isFavorite: req.body.isFavorite,
+        isFavourite: req.body.isFavourite,
         isFeatured: req.body.isFeatured
     })
     
@@ -95,6 +100,19 @@ router.post(`/`, uploadOptions.single('image'), async (req , res)=>{
 
     res.send(film);
 })
+
+//Favourite count
+router.get(`/get/favourite/:count`, async (req, res) =>{
+    const count = req.params.count ? req.params.count : 0
+    const films = await Film.find({isFavourite: true}).limit(count);
+
+    if (!films) {
+        res.status(500).json({success: false})
+    }
+    res.send(films);
+})
+
+// or use For Favourites:
 
 /*
 router.get(`/get/count`, async (req, res) =>{
@@ -108,6 +126,9 @@ router.get(`/get/count`, async (req, res) =>{
     });
 })
 
+
+
+// Delete function 
 router.delete('/:id', (req, res)=>{
     Film.findByIdAndRemove(req.params.id).then(film =>{
         if(film) {
@@ -120,15 +141,6 @@ router.delete('/:id', (req, res)=>{
     })
 })
 
-router.get(`/get/featured/:count`, async (req, res) =>{
-    const count = req.params.count ? req.params.count : 0
-    const films = await Film.find({isFeatured: true}).limit(count);
-
-    if (!films) {
-        res.status(500).json({success: false})
-    }
-    res.send(films);
-})
 
 
 

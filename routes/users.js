@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+//get all users
 router.get('/', async (req, res) =>{
     const userList = await User.find().select('fullname');
 
@@ -13,6 +14,7 @@ router.get('/', async (req, res) =>{
     res.send(userList);
 })
 
+//get users by id
 router.get(`/:id`, async(req,res)=>{
     const user = await User.findById(req.params.id).select('-passwordHash');
 
@@ -22,6 +24,7 @@ router.get(`/:id`, async(req,res)=>{
     res.status(200).send(user);
 })
 
+//register Users
 router.post(`/`, async (req,res)=>{
     let user = new User({
         fullname: req.body.fullname,
@@ -38,6 +41,7 @@ router.post(`/`, async (req,res)=>{
     res.send(user);
 })
 
+//log in
 router.post('/login', async (req,res) => {
     const user = await User.findOne({email: req.body.email})
     const secret = process.env.secret;

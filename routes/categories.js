@@ -2,7 +2,7 @@ const {Category} = require('../models/category');
 const express = require('express');
 const router = express.Router();
 
-
+//get categories 
 router.get(`/`, async (req, res) =>{
     const categoryList = await Category.find();
 
@@ -12,6 +12,7 @@ router.get(`/`, async (req, res) =>{
     res.status(200).send(categoryList);
 })
 
+//get categories by id
 router.get(`/:id`, async(req,res)=>{
     const category = await Category.findById(req.params.id);
 
@@ -21,6 +22,7 @@ router.get(`/:id`, async(req,res)=>{
     res.status(200).send(category);
 })
 
+//post categories 
 router.post(`/`, async (req,res)=>{
     let category = new Category({
         name: req.body.name,
