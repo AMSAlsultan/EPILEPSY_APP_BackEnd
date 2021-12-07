@@ -31,7 +31,8 @@ router.post(`/`, async (req,res)=>{
         email: req.body.email,
         passwordHash: bcrypt.hashSync(req.body.password, 6),
         gender: req.body.gender,
-        isAdmin: req.body.isAdmin
+        isAdmin: req.body.isAdmin,
+        code: req.body.code
     })
     user = await user.save();
 

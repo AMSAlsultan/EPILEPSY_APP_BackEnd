@@ -17,11 +17,38 @@ const patientSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    isAdmin: {
+    birthday: { 
+        type: Date,
+        required: true,
+     },
+     epilepsyType: { 
         type: String,
-        default: false,
-    }
-
+        required: true,
+     },
+     epilepsyTimes: { 
+        type: String,
+        required: true,
+     },
+     epilepsyFrequencies: { 
+        type: String,
+        required: true,
+     },
+     forHowLong: { 
+        type: String,
+        required: true,
+     },
+     epilepsyTriggers: { 
+        type: String,
+        required: true,
+     },
+     issues: { 
+        type: String,
+        required: true,
+     },
+     address: { 
+        type: String,
+        required: true,
+     }
 });
 
 patientSchema.virtual('id').get(function () {

@@ -101,16 +101,29 @@ router.post(`/`, uploadOptions.single('image'), async (req , res)=>{
     res.send(film);
 })
 
-//Favourite count
-router.get(`/get/favourite/:count`, async (req, res) =>{
-    const count = req.params.count ? req.params.count : 0
-    const films = await Film.find({isFavourite: true}).limit(count);
 
-    if (!films) {
+//get favorites
+router.get(`/get/favourite`, async (req, res) =>{
+    const films = await Film.find({isFavourite: true})
+
+    if(!films) {
         res.status(500).json({success: false})
     }
     res.send(films);
 })
+
+//Favourite count
+router.get(`/get/favourite/count`, async (req, res) =>{
+    const filmCount = await Film.countDocuments({isFavourite: true})
+
+    if(!filmCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        filmCount: filmCount
+    }).clone().catch(function(filmCount){ console.log(filmCount)})
+})
+
 
 // or use For Favourites:
 
