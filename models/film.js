@@ -27,7 +27,7 @@ const filmSchema = mongoose.Schema({
        ref: 'Category',
        required: true,
     },
-    isFavorite: {
+    isFavourite: {
         type: Boolean,
         default: false,
     },

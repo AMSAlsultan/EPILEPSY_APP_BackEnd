@@ -5,14 +5,6 @@ const categorySchema = mongoose.Schema({
         type: String,
         required: true, 
     },
-    //isFeatured: {
-    //    type: Boolean,
-    //    default: false
-    //},
-    //image: {
-    //    type: String,
-    //    required: true, 
-    //}
     color: {
         type: String,
        }
